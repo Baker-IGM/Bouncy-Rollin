@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.igme202.fpscontroller": {
-      "version": "https://github.com/patches34/igme202-FPSController.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.inputsystem": "1.0.0"
-      },
-      "hash": "651c61034964b7aa931d5954a887679213a8b410"
-    },
     "com.unity.cinemachine": {
       "version": "2.6.11",
       "depth": 0,
