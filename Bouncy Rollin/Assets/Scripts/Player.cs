@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        direction = transform.forward;
+        direction = transform.right;
 
         rBody = GetComponent<Rigidbody>();
     }
@@ -38,9 +38,14 @@ public class Player : MonoBehaviour
         //  Roll forward/backwards
         if(playerInput.y != 0)
         {
-            Vector3 moveForce = Vector3.right;
+            float moveForce = accelerationRate * Time.deltaTime;
+            
+            if(playerInput.y < 0)
+            {
+                moveForce *= -1f;
+            }
 
-            rBody.AddTorque(accelerationRate * playerInput.y, 0, 0, ForceMode.Force);
+            rBody.AddTorque(direction * moveForce, ForceMode.Impulse);
         }
 
         //  turn left/right
@@ -49,12 +54,12 @@ public class Player : MonoBehaviour
             Vector3 turnForce = Vector3.up;
             turnForce.y = turnRate * Time.deltaTime;
 
-            if(playerInput.x > 0)
+            if(playerInput.x < 0)
             {
-                turnForce *= -1;
+                turnForce *= -1f;
             }
 
-            rBody.AddTorque(turnForce, ForceMode.Force);
+            direction = Quaternion.Euler(turnForce) * direction;
         }
     }
 
@@ -68,10 +73,10 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
-        Gizmos.DrawRay(transform.position, direction);
+        Gizmos.DrawRay(transform.position, Vector3.Cross(direction, Vector3.up));
     }
 }
