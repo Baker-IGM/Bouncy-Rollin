@@ -35,9 +35,26 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //  Roll forward/backwards
         if(playerInput.y != 0)
         {
-            rBody.AddRelativeTorque(accelerationRate * playerInput.y, 0, 0, ForceMode.Force);
+            Vector3 moveForce = Vector3.right;
+
+            rBody.AddTorque(accelerationRate * playerInput.y, 0, 0, ForceMode.Force);
+        }
+
+        //  turn left/right
+        if (playerInput.x != 0)
+        {
+            Vector3 turnForce = Vector3.up;
+            turnForce.y = turnRate * Time.deltaTime;
+
+            if(playerInput.x > 0)
+            {
+                turnForce *= -1;
+            }
+
+            rBody.AddTorque(turnForce, ForceMode.Force);
         }
     }
 
